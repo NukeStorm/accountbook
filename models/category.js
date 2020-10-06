@@ -1,28 +1,30 @@
 const Sequelize = require('sequelize');
 
-class User extends Sequelize.Model {
+class Category extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        userid: {
-          type: Sequelize.STRING(25),
+        cid: {
+          type: Sequelize.INTEGER,
           allowNull: false,
           unique: true,
           primaryKey: true,
+          autoIncrement: true,
         },
 
-        pw: {
+        content: {
           type: Sequelize.STRING(45),
           allowNull: false,
           unique: false,
         },
       },
+
       {
         sequelize,
         timestamps: false,
         underscored: false,
-        modelName: 'User',
-        tableName: 'USER',
+        modelName: 'Category',
+        tableName: 'CATEGORY',
         paranoid: false,
         charset: 'utf8',
         collate: 'utf8_general_ci',
@@ -32,7 +34,8 @@ class User extends Sequelize.Model {
 
   // eslint-disable-next-line no-unused-vars
   static associate(db) {
-    db.User.hasMany(db.Content, { foreignKey: 'userid', sourceKey: 'userid' });
+    db.Category.hasMany(db.Content, { foreignKey: 'category', sourceKey: 'cid' });
+    db.Category.belongsTo(db.CategoryType, { foreignKey: 'type', targetKey: 'typeid' });
   }
 }
-module.exports = User;
+module.exports = Category;

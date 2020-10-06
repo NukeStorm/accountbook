@@ -7,7 +7,9 @@ const logger = require('morgan');
 const { sequelize } = require('./models');
 
 const indexRouter = require('./routes/index');
+const contentRouter = require('./routes/content');
 const userRouter = require('./routes/user');
+const categoryRouter = require('./routes/category');
 
 const app = express();
 
@@ -28,4 +30,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/', userRouter);
+app.use('/api/', contentRouter);
+app.use('/api/', categoryRouter);
 module.exports = app;
