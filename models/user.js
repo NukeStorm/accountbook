@@ -29,6 +29,10 @@ class User extends Sequelize.Model {
       },
     );
   }
-  static associate(db) {}
+
+  // eslint-disable-next-line no-unused-vars
+  static associate(db) {
+    db.User.hasMany(db.Content, { foreignKey: 'userid', sourceKey: 'userid' });
+  }
 }
 module.exports = User;
