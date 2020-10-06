@@ -1,6 +1,6 @@
 require('dotenv').config({ path: '.env' });
 
-const env = process.env;
+const { env } = process;
 
 const development = {
   username: env.DB_USER,
