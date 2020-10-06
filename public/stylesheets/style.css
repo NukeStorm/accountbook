@@ -1,8 +1,118 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+#app {
+}
+nav {
+  background-color: aquamarine;
+  font-size: 48px;
+  text-align: center;
+}
+.month {
+  text-align: center;
+  font-size: 24px;
+}
+.prev-month-btn,
+.next-month-btn {
+  border: none;
+  background: none;
+  font-size: 24px;
+}
+.menu-bar {
+  width: 450px;
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 2em;
+  background: rgba(0, 0, 0, 0.1);
+}
+.menu-bar ul {
+  list-style-type: none;
+  padding-left: 0;
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+}
+.menu-bar ul li {
+  list-style: none;
+
+  font-size: 28px;
+  width: 250px;
+  text-align: center;
+}
+.menu-bar ul li::after {
+  content: '|';
+  margin-left: 30px;
+}
+.menu-bar ul li:last-child::after {
+  border-right: 0;
+  content: '';
+}
+
+.menu-bar ul li:hover {
+  background-color: grey;
+}
+
+.content-add-form {
+  margin: auto;
+  width: 500px;
+}
+
+.content-add-form button {
+  border: none;
+}
+
+.content-add-form .row {
+  margin: 10px;
+}
+
+.content-add-form .add-btn {
+  width: 100%;
+}
+
+.category-type-filter {
+  margin: auto;
+  width: 500px;
+}
+.category-type-filter div {
+  margin-left: 33%;
+  margin-right: 33%;
+  text-align: left;
+}
+.category-type-filter .category-income {
+  color: #00b7ff;
+}
+.category-type-filter .category-expenditure {
+  color: red;
+}
+
+.history-list {
+  margin: auto;
+  width: 500px;
+}
+
+.record .row {
+  display: flex;
+  justify-content: space-around;
+  font-size: 20px;
+}
+.record .header {
+  color: slategray;
+}
+
+.record .content-row {
+}
+
+.record .category-type {
+  border: none;
+  background-color: cornflowerblue;
+  border-radius: 2em;
+  width: 75px;
+  color: white;
+  text-align: center;
 }
