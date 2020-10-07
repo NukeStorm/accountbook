@@ -5,6 +5,7 @@ const CategoryType = require('../models/category_type');
 const Category = require('../models/category');
 
 const router = express.Router();
+
 router.post('/v1/category/type/add', async (req, res, next) => {
   const result = { res: true };
   const { name } = req.body;
@@ -51,11 +52,27 @@ router.post('/v1/category/add', async (req, res, next) => {
   }
 });
 
-router.get('/v1/category/list', async (req, res, next) => {
+router.get('/v1/category/listall', async (req, res, next) => {
   const result = { res: null };
 
   try {
     result.res = await Category.findAll();
+    res.json(result);
+  } catch (e) {
+    console.log(e);
+    result.res = false;
+    res.json(result);
+  }
+});
+
+router.get('/v1/category/list/:type', async (req, res, next) => {
+  const result = { res: null };
+  const { type } = req.params;
+  const sql = {
+    where: { type: parseInt(type) },
+  };
+  try {
+    result.res = await Category.findAll(sql);
     res.json(result);
   } catch (e) {
     console.log(e);
