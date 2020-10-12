@@ -8,6 +8,9 @@ const development = {
   database: 'accountbook',
   host: env.DB_HOST,
   dialect: 'mysql',
+  dialectOptions: {
+    decimalNumbers: true,
+  },
 };
 const production = {
   username: env.DB_USER,
@@ -15,6 +18,9 @@ const production = {
   database: 'accountbook',
   host: env.DB_HOST,
   dialect: 'mysql',
+  dialectOptions: {
+    decimalNumbers: true,
+  },
 };
 const test = {
   username: env.DB_USER,
@@ -22,6 +28,9 @@ const test = {
   database: 'accountbook',
   host: env.DB_HOST,
   dialect: 'mysql',
+  dialectOptions: {
+    decimalNumbers: true,
+  },
 };
 
 module.exports = { development, production, test };

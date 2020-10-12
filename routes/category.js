@@ -28,7 +28,7 @@ router.get('/v1/category/type/list', async (req, res, next) => {
     res.json(result);
   } catch (e) {
     console.log(e);
-    result.res = false;
+    result.res = [];
     res.json(result);
   }
 });
