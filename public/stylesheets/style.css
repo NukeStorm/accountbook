@@ -1,88 +1,139 @@
 body {
-  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  font: 20px 'Jua', sans-serif, Helvetica, Arial, sans-serif;
 }
-
+input,
+option,
+select {
+  font: 20px 'Jua', sans-serif, Helvetica, Arial, sans-serif;
+}
 a {
   color: #00b7ff;
 }
-
-#app {
+.hidden {
+  display: none !important;
 }
+
 nav {
   background-color: aquamarine;
   font-size: 48px;
   text-align: center;
 }
+
+
+
 .month {
   text-align: center;
   font-size: 24px;
 }
+.current-month {
+  margin: 5 0 0 0;
+}
+.prev-month-btn:hover,
+.next-month-btn:hover {
+  background: #fff;
+  box-shadow: 0px 2px 10px 5px #1abc9c;
+  color: #000;
+}
+
+.next-month-btn:after {
+  content: '';
+  background: #1abc9c;
+  opacity: 0;
+  transition: all 0.8s;
+}
+.prev-month-btn:active:after,
+.next-month-btn:active:after {
+  opacity: 1;
+  transition: 0s;
+}
+.prev-month-btn:focus,
+.next-month-btn:focus {
+  outline: 0;
+}
+
 .prev-month-btn,
 .next-month-btn {
   border: none;
+  margin: 15px;
   background: none;
   font-size: 24px;
+  border: 1px solid black;
+  border-radius: 5px;
+  transition-duration: 0.4s;
+  box-shadow: 0 2px 5px #193047;
 }
 .menu-bar {
-  width: 450px;
+  width: 600px;
   margin: auto;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   border-radius: 2em;
   background: rgba(0, 0, 0, 0.1);
 }
 .menu-bar ul {
   list-style-type: none;
-  padding-left: 0;
-  width: 400px;
+  padding: 0px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 .menu-bar ul li {
   list-style: none;
-
-  font-size: 28px;
-  width: 250px;
+  font-size: 30px;
+  padding: 0px;
+  width: 175px;
   text-align: center;
+  border-right: 2px solid black;
 }
-.menu-bar ul li::after {
-  content: '|';
-  margin-left: 30px;
+.menu-bar ul :last-child {
+  border-right: none;
 }
-.menu-bar ul li:last-child::after {
-  border-right: 0;
-  content: '';
-}
-
-.menu-bar ul li:hover {
-  background-color: grey;
+.menu-bar div[class|='menu']:hover {
+  background-color: whitesmoke;
 }
 
+.menu-bar div[class|='menu'] {
+  text-align: center;
+  margin: 0 5 0 5;
+  border-radius: 2em;
+}
 .content-add-form {
   margin: auto;
-  width: 500px;
+  width: 900px;
 }
 
 .content-add-form button {
   border: none;
+  font-family: 'Jua', sans-serif;
+  font-size: 20px;
+  margin: 5px;
 }
 
 .content-add-form .row {
-  margin: 10px;
+  margin-top: 10px;
 }
 
 .content-add-form .add-btn {
   width: 100%;
+  height: 50px;
+  font-size: 28px;
+  font-weight: bold;
+  background-color: aquamarine;
+}
+
+/* 카테고리의 분류 (수입 지출) */
+.category-type .selected {
+  background-color: skyblue;
 }
 
 .category-type-filter {
   margin: auto;
-  width: 500px;
+  width: 900px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
 }
 .category-type-filter div {
-  margin-left: 33%;
-  margin-right: 33%;
-  text-align: left;
+  margin-left: 30%;
+  margin-right: 5%;
 }
 .category-type-filter .category-income {
   color: #00b7ff;
@@ -91,28 +142,95 @@ nav {
   color: red;
 }
 
+.field-income,
+.field-expenditure {
+  width: 250px;
+  text-align: right;
+  display: inline-block;
+}
+
 .history-list {
   margin: auto;
-  width: 500px;
+  width: 900px;
+  min-height: 900px;
 }
 
 .record .row {
   display: flex;
+  z-index: 1;
   justify-content: space-around;
   font-size: 20px;
 }
 .record .header {
-  color: slategray;
+  color: black;
+  background-color: lightblue;
+  height: 30px;
+  margin-top: 15px;
 }
-
+.record .header .record-day {
+  margin: auto;
+  width: 30%;
+  text-align: left;
+}
+.record .header .day-income {
+  margin: auto;
+  width: 30%;
+  text-align: right;
+  color: cornflowerblue;
+}
+.record .header .day-expenditure {
+  margin: auto;
+  width: 30%;
+  text-align: right;
+  color: tomato;
+}
 .record .content-row {
+  margin: 5px;
+  padding-top: 5px;
+  padding-bottom: 35px;
 }
 
-.record .category-type {
+/* hover시 배경색 변경 */
+.record .content-row:hover{
+  background: rgba(100, 149, 237, .7);
+  opacity: 0.5;
+}
+
+/*  hover시 나타나는 수정 버튼 div */
+.record .modify-row{
+  position: absolute;
+  z-index: 5;
+ 
+}
+.modify-row .modify-btn{
+  width: inherit;
+  height: 50px;
+  font-size: 32px;
+  margin-top: 0px;
+  margin-bottom:15px;
+  font-family: inherit;
+}
+
+
+.record [class|='category-type'] {
   border: none;
-  background-color: cornflowerblue;
   border-radius: 2em;
-  width: 75px;
+  width: 125px;
   color: white;
   text-align: center;
+}
+.record .category-type-income {
+  background-color: cornflowerblue;
+}
+.record .category-type-expenditure {
+  background-color: tomato;
+}
+.content-row .content {
+  text-align: left;
+  width: 20%;
+}
+.content-row .amount {
+  text-align: right;
+  width: 20%;
+  margin-left: 50px;
 }
