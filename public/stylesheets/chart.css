@@ -61,7 +61,7 @@ rect:hover,
 rect:focus {
   fill: black !important;
 }
-.row{
+#bar-chart-area .row{
   display: flex;
   justify-content: space-around;
   
