@@ -2,9 +2,9 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
 
-import State from './State.js';
-import { addAccountHistory, getCategoryList, loadMonthAccountHistory, getCategoryTypeList } from './Transaction.js';
-import { getMonthStr } from './utils.js';
+import State from '../State.js';
+import { addAccountHistory, getCategoryList, loadMonthAccountHistory, getCategoryTypeList } from '../Transaction.js';
+import { getMonthStr } from '../utils.js';
 
 class AccountHistoryState extends State {
   constructor() {
@@ -84,7 +84,7 @@ class AccountHistoryState extends State {
     const currentMonth = getMonthStr(null);
     const categoryTypeList = await this.getCategoryTypeList();
     const categoryList = [];
-    this.update({ currentMonth, categoryTypeList, categoryList });
+    this.state = { currentMonth, categoryTypeList, categoryList };
     await this.changeMonthState(currentMonth);
   }
 }

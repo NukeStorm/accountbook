@@ -19,7 +19,20 @@ nav {
   text-align: center;
 }
 
+@keyframes slide-up {
+  0% {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
 
+div{
+  animation: slide-up 0.5s ease;
+}
 
 .month {
   text-align: center;
@@ -63,8 +76,8 @@ nav {
   box-shadow: 0 2px 5px #193047;
 }
 .menu-bar {
-  width: 600px;
-  margin: auto;
+  width: 650px;
+  margin: auto auto 50 auto;
   display: flex;
   justify-content: center;
   border-radius: 2em;
@@ -100,18 +113,36 @@ nav {
   margin: auto;
   width: 900px;
 }
-
-.content-add-form button {
-  border: none;
-  font-family: 'Jua', sans-serif;
+.form-btns-list button{
   font-size: 20px;
-  margin: 5px;
+  font-family: inherit;
+  border: none;
+  margin-left: 10px;
+}
+.category-type-toggle{
+  border: none;
+  font-family: inherit;
+  font-size: 20px;
+  margin-right: 10px;
+  
 }
 
 .content-add-form .row {
   margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
+.content-add-form input[type='text'] {
+  border: none;
+  border-bottom: 1px solid black;
+}
+.content-add-form input[name='amount'] {
+  width: 40%;
+}
+.content-add-form input[name='content'] {
+  width: 40%;
+}
 .content-add-form .add-btn {
   width: 100%;
   height: 50px;
