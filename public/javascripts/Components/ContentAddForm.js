@@ -34,7 +34,7 @@ class ContentAddForm {
     return `
       <div class="row" style="display: flex; justify-content: space-between">
         <div class="row category-type">${typeNodeHtmlStr}</div>
-        <div class="row">
+        <div class="row form-btns-list">
           <button>내용 지우기</button>
         </div>
       </div>
