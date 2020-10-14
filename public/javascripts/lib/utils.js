@@ -13,6 +13,12 @@ export function getMonthStr(date) {
   const currentMonthStr = [now.getFullYear(), `0${now.getMonth() + 1}`.slice(-2)].join('-');
   return currentMonthStr;
 }
+
+// 해당 연도 월의 날짜수를 반환
+export function daysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
 // RGB code생성하는 함수
 export function toRGBCode(red = 255, blue = 255, green = 255) {
   return `#${red.toString(16)}${blue.toString(16)}${green.toString(16)}`;
