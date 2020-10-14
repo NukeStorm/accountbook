@@ -1,0 +1,39 @@
+#calender-area {
+    margin-top: 50px;
+    width: 1000px;
+    height: 800px;
+    margin: auto;
+}
+#calender-area .row{
+    display: flex;
+    justify-content: center;
+}
+
+#calender-area .col{
+    width: 250px;
+    height: 100px;
+    border: 1px solid grey;
+}
+#calender-area .header .col{
+
+    border: 1px solid grey;
+    text-align: center;
+    font-size: 28px;
+}
+
+#calender-area .col .date {
+   font-size: 24px;
+   font-weight: bolder;
+  }
+#calender-area .col .day-income {
+    margin: auto;
+    height: 25%;
+    text-align: right;
+    color: cornflowerblue;
+  }
+#calender-area .col .day-expenditure {
+    margin: auto;
+    height: 25%;
+    text-align: right;
+    color: tomato;
+  }
