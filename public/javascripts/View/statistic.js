@@ -29,7 +29,6 @@ class StatisticView extends View {
     const htmlStr = this.createHtml();
     app.innerHTML = htmlStr;
     await super.render();
-    console.log('view 생성');
   }
 }
 

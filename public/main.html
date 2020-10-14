@@ -2,6 +2,8 @@
   <head>
     <title>Express</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/chart.css" />
+    <link rel="stylesheet" href="/stylesheets/calendar.css" />
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
   </head>
 
@@ -10,11 +12,6 @@
   </body>
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script type="module" src="/javascripts/View/main.js"></script>
-  <script>
-    /*router 구현을 위한 테스트 코드 - 삭제예정*/
-    window.addEventListener('hashchange', () => {
-      console.log(window.location.hash);
-    });
-  </script>
+  <!--<script type="module" src="/javascripts/View/main.js"></script> -->
+  <script type="module" src="/javascripts/app.js"></script>
 </html>

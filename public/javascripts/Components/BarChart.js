@@ -14,7 +14,6 @@ class BarChart extends Observer {
   bindEvents() {}
 
   getbarChartRowHtml(rowState = {}) {
-    console.log(rowState.maxWidth);
     const width = (rowState.sumAmount / rowState.totalSumAmount) * rowState.maxWidth;
     const percentage = ((rowState.sumAmount / rowState.totalSumAmount) * 100).toFixed(2);
     const { color } = rowState;
