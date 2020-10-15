@@ -1,6 +1,11 @@
 body {
   font: 20px 'Jua', sans-serif, Helvetica, Arial, sans-serif;
 }
+a{
+  text-decoration: none;
+  font-size: 20px;
+  
+}
 input,
 option,
 select {
@@ -28,6 +33,58 @@ nav {
       opacity: 1;
       transform: translateY(0);
   }
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 1em;
+}
+.signup-form,
+.login-form{
+  width: 500px;
+  height: auto;
+  padding: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top : 10%;
+  text-align: center;
+}
+.signup-form span,
+.login-form span{
+
+  display: inline-block;
+  width: 40px;
+  margin-top: 5px;
+  
+}
+.signup-form input,
+.login-form input{
+  border:none;
+  border-bottom: 2px solid black;
+  width: 180px;
+  margin-left: 5px;
+  margin-bottom: 15px;
+}
+.signup-form.header,
+.login-form .header{
+  margin: 10px;
+}
+.signup-form .signup-btn,
+.signup-form .signup-cancel-btn,
+.login-form .login-btn{
+  width: 40%;
+  margin:2px;
+  height: 40px;
+  font-size: 24px;
+  font-family: inherit;
+  border: none;
+ 
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  background-color: aquamarine;
+}
+
+.signup-cancel-btn{
+  background-color: tomato !important;
 }
 
 div{
@@ -83,6 +140,9 @@ div{
   border-radius: 2em;
   background: rgba(0, 0, 0, 0.1);
 }
+.menu-bar a{
+  font-size: 30px;
+}
 .menu-bar ul {
   list-style-type: none;
   padding: 0px;
@@ -91,7 +151,7 @@ div{
 }
 .menu-bar ul li {
   list-style: none;
-  font-size: 30px;
+
   padding: 0px;
   width: 175px;
   text-align: center;
@@ -112,6 +172,7 @@ div{
 .content-add-form {
   margin: auto;
   width: 900px;
+  margin-bottom: 10px;
 }
 .form-btns-list button{
   font-size: 20px;
@@ -143,17 +204,21 @@ div{
 .content-add-form input[name='content'] {
   width: 40%;
 }
-.content-add-form .add-btn {
+.content-add-form .add-btn,
+.content-add-form .modify {
   width: 100%;
+  border: none;
   height: 50px;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   background-color: aquamarine;
 }
-
+.content-add-form .modify{
+  background-color: lightskyblue;
+}
 /* 카테고리의 분류 (수입 지출) */
 .category-type .selected {
-  background-color: skyblue;
+  background-color: aquamarine;
 }
 
 .category-type-filter {
@@ -194,9 +259,10 @@ div{
 }
 .record .header {
   color: black;
-  background-color: lightblue;
+  background-color: rgba(127, 255, 212, 0.63);
   height: 30px;
-  margin-top: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .record .header .record-day {
   margin: auto;
@@ -223,23 +289,26 @@ div{
 
 /* hover시 배경색 변경 */
 .record .content-row:hover{
-  background: rgba(100, 149, 237, .7);
-  opacity: 0.5;
+  background: aquamarine;
+  opacity: 0.8;
 }
 
 /*  hover시 나타나는 수정 버튼 div */
 .record .modify-row{
   position: absolute;
   z-index: 5;
- 
 }
+
 .modify-row .modify-btn{
   width: inherit;
   height: 50px;
-  font-size: 32px;
+  font-size: 24px;
   margin-top: 0px;
   margin-bottom:15px;
   font-family: inherit;
+  border: none;
+  border-radius: 0.5em;
+  background-color: rgb(0, 255, 191);
 }
 
 

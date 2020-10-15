@@ -1,5 +1,20 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-undef */
+/* 토큰 헤더에 담는 코드 - 테스트용, 변경 예정
+export default function checkAuthToken() {
+  const token = sessionStorage.getItem('token');
+  if (clientToken) {
+    axios.defaults.headers.common['x-auth-token'] = clientToken;
+  }
+  delete axios.defaults.headers.common['x-auth-token'];
+  const header = {
+    headers: {
+      'content-type': 'application/json',
+    },
+  };
+}
+*/
+
 export async function loadMonthAccountHistory(monthstr) {
   const apiurl = `/api/v1/content/list/currentmonth/${monthstr}`;
   let res = await axios.get(apiurl);
@@ -18,6 +33,7 @@ export async function addAccountHistory(history) {
     return false;
   }
 }
+
 export async function getCategoryList(typeid) {
   const apiurl = `/api/v1/category/list/${typeid}`;
   // eslint-disable-next-line no-undef
@@ -46,4 +62,18 @@ export async function loadMonthStatistic(monthstr) {
   let res = await axios.get(apiurl);
   res = res.data.res;
   return res;
+}
+
+// 회원가입 시도
+export async function signup(userData = {}) {
+  const apiurl = '/api/v1/user/signup';
+  const res = await axios.post(apiurl, userData);
+  return res.data.res;
+}
+
+// 로그인을 시도하여 jwt토큰을 얻어옴
+export async function getLoginToken(loginData = {}) {
+  const apiurl = '/api/v1/auth/tokens';
+  const res = await axios.post(apiurl, loginData);
+  return res.data;
 }

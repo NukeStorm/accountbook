@@ -2,11 +2,16 @@
 import MainView from './View/main.js';
 import CalendarView from './View/calendar.js';
 import StatisticView from './View/statistic.js';
+import LoginView from './View/login.js';
+import SignupForm from './View/signup.js';
+
 // 주소-해당 화면  View 객체 맵핑
 const viewList = {
   main: new MainView(),
   calendar: new CalendarView(),
   statistics: new StatisticView(),
+  login: new LoginView(),
+  signup: new SignupForm(),
 };
 
 // SPA 초기화
@@ -14,7 +19,7 @@ async function init() {
   window.onload = async () => {
     // url 입력되어 페이지 로드할때 해당 주소의 화면으로 바로 초기화, 없는 주소면 메인페이지 로드
     let targetView = window.location.hash.replace('#', '');
-    if (!viewList[targetView]) targetView = 'main';
+    if (!viewList[targetView]) targetView = 'login';
     await viewList[targetView].render();
   };
 
