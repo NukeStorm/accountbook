@@ -86,8 +86,13 @@ class HistoryList extends Observer {
     parent.insertAdjacentHTML('beforeend', buttonHtml);
 
     const modifyBtn = document.querySelector('.modify-btn');
-    modifyBtn.addEventListener('click', (event) => this.modifyBtnClickEvHandler(event));
     const deletebtn = document.querySelector('.delete-btn');
+    if (document.querySelector('#submit-btn').classList.contains('modify')) {
+      modifyBtn.disabled = true;
+      deletebtn.disabled = true;
+    }
+
+    modifyBtn.addEventListener('click', (event) => this.modifyBtnClickEvHandler(event));
     deletebtn.addEventListener('click', (event) => this.deleteBtnClickEvHandler(event));
   }
 
