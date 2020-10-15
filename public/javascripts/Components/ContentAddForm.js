@@ -6,7 +6,7 @@
 /* eslint-disable class-methods-use-this */
 
 import { convertNumberFormat } from '../lib/utils.js';
-import { getCategoryList, addAccountHistory } from '../lib/Transaction.js';
+import { getCategoryList, addAccountHistory, modifyAccountHistory } from '../lib/Transaction.js';
 
 class ContentAddForm {
   constructor(selector) {
@@ -14,10 +14,20 @@ class ContentAddForm {
     this.selector = selector;
     this.getCategoryList = getCategoryList;
     this.addAccountHistory = addAccountHistory;
+    this.modifyAccountHistory = modifyAccountHistory;
+    this.categoryList = [];
   }
 
   importState(state) {
     this.appState = state;
+  }
+
+  createCategoryListHtml() {
+    let categoryNodeHtmlStr = '';
+    this.categoryList.forEach((category) => {
+      categoryNodeHtmlStr += `<option value="${category.cid}">${category.content}</option>`;
+    });
+    return categoryNodeHtmlStr;
   }
 
   createHtml(state) {
@@ -26,10 +36,7 @@ class ContentAddForm {
       typeNodeHtmlStr += `<button class="category-type-toggle" id="${`typeid-${type.typeid}`}">${type.name}</button>`;
     });
 
-    let categoryNodeHtmlStr = '';
-    state.categoryList.forEach((category) => {
-      categoryNodeHtmlStr += `<option value="${category.cid}">${category.content}</option>`;
-    });
+    const categoryNodeHtmlStr = this.createCategoryListHtml();
 
     return `
       <div class="row" style="display: flex; justify-content: space-between">
@@ -58,24 +65,26 @@ class ContentAddForm {
         <input type="text" name="content" />
       </div>
       <div class="row">
-        <button class="add-btn">추가</button>
+        <button class="add-btn" id="submit-btn">추가</button>
       </div>
       `;
   }
 
   async typeToggleHandler(ev) {
-    const state = this.appState.get();
+    // const state = this.appState.get();
     const selected = ev.target;
-
     const typeId = parseInt(selected.id.split('-')[1]);
-    const categoryList = await this.getCategoryList(typeId);
-    this.appState.update({
-      ...state,
-      categoryList,
-    });
-    this.render(this.selector);
+    this.categoryList = await this.getCategoryList(typeId);
 
-    document.querySelector(`#${selected.id}`).classList.add('selected');
+    const btnlist = document.querySelectorAll('.category-type-toggle');
+    btnlist.forEach((btn) => {
+      if (btn.id === selected.id) {
+        btn.classList.add('selected');
+      } else btn.classList.remove('selected');
+    });
+
+    // document.querySelector(`#${selected.id}`).classList.add('selected');
+    document.querySelector('select[name="category"]').innerHTML = this.createCategoryListHtml();
   }
 
   amountInputCheckHandler(ev) {
@@ -88,7 +97,7 @@ class ContentAddForm {
   }
 
   // eslint-disable-next-line no-unused-vars
-  async addBtnEvnetListner(ev) {
+  async submitBtnEvnetListner(ev) {
     const state = this.appState.get();
     const userid = 'test';
     const date = document.querySelector('input[name="date"]').value;
@@ -106,9 +115,25 @@ class ContentAddForm {
       content,
       userid,
     };
-    const result = await this.addAccountHistory(history);
+    const resultmsg = {
+      modify: '수정되었습니다.',
+      add: '입력되었습니다.',
+    };
+
+    let msg = null;
+    let result = null;
+    if (ev.target.classList.contains('modify')) {
+      history.idx = document.querySelector(this.selector).getAttribute('row-id');
+      result = await this.modifyAccountHistory(history);
+      msg = resultmsg.modify;
+      ev.target.classList.remove('modify');
+    } else {
+      result = await this.addAccountHistory(history);
+      msg = resultmsg.add;
+    }
+
     if (result) {
-      alert('입력되었습니다');
+      alert(msg);
       const recordlist = await this.appState.loadMonthAccountHistory(this.appState.get().currentMonth);
       this.appState.update({
         ...state,
@@ -119,16 +144,60 @@ class ContentAddForm {
     }
   }
 
+  async changeToModifyForm() {
+    const { recordMap } = this.appState.state;
+    const idx = parseInt(document.querySelector(this.selector).getAttribute('row-id'));
+    const history = recordMap.get(idx);
+    const typeid = history.Category.type;
+    this.categoryList = await this.getCategoryList(typeid);
+    const btnlist = document.querySelectorAll('.category-type-toggle');
+    btnlist.forEach((btn) => {
+      if (btn.id === `typeid-${typeid}`) {
+        btn.classList.add('selected');
+      } else btn.classList.remove('selected');
+    });
+    document.querySelector('select[name="category"]').innerHTML = this.createCategoryListHtml();
+    const addForm = document.querySelector('#content-add-form');
+    addForm.querySelector("input[name='date']").value = history.date;
+    addForm.querySelector("input[name='amount']").value = history.amount;
+    addForm.querySelector("input[name='content']").value = history.content;
+    addForm.querySelector("select[name='category']").value = history.Category.cid;
+    addForm.querySelector('#submit-btn').innerText = '수정';
+  }
+
+  // submit 버튼 class가 변경될때 처리하는 콜백 함수
+  async btnClassChangeCallback(mutationsList, observer) {
+    mutationsList.forEach(async (mutation) => {
+      if (mutation.attributeName === 'class') {
+        //  버튼 class가 modify(수정) 일때
+        if (mutation.target.classList.contains('modify')) {
+          this.changeToModifyForm();
+          // 입력 폼을 수정 폼으로 변경, 수정할 기록 데이터를 바인딩
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          // 버튼 class에 modify가 없을때(수정모드가 아닌 일반 추가모드)
+          document.querySelector('#submit-btn').innerText = '추가';
+        }
+      }
+    });
+  }
+
   bindEvents() {
+    // submit 버튼의 클래스 변화를 감시하는 Observer  등록
+    // class에 modify class추가/삭제를 통해 추가 / 수정 모드로  변경
+    // class변화를 감지하면 btnClassChangeCallback 콜백함수 실행
+    const mutationObserver = new MutationObserver((m, o) => this.btnClassChangeCallback(m, o));
+    mutationObserver.observe(document.querySelector('#submit-btn'), { attributes: true });
+
     const CategoryTypeBtns = document.querySelector('.row .category-type').childNodes;
     CategoryTypeBtns.forEach((btn) => {
       btn.addEventListener('click', (ev) => this.typeToggleHandler(ev));
     });
     const moneyinput = document.querySelector('#amount');
     moneyinput.addEventListener('keyup', (ev) => this.amountInputCheckHandler(ev));
-    const addbtn = document.querySelector('.add-btn');
+    const addbtn = document.querySelector('#submit-btn');
     addbtn.addEventListener('click', (ev) => {
-      this.addBtnEvnetListner(ev);
+      this.submitBtnEvnetListner(ev);
     });
 
     document.querySelector(this.selector).addEventListener('click', (ev) => {
