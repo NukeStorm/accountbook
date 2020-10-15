@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable import/extensions */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable class-methods-use-this */
@@ -61,7 +62,7 @@ class HistoryList extends Observer {
     let recordListHtmlStr = '';
     recordList.forEach((record) => {
       const categoryType = record.Category.CategoryType.name === '지출' ? 'expenditure' : 'income';
-      const recordHtmlStr = `<div class="row content-row id="row-${record.idx}">
+      const recordHtmlStr = `<div class="row content-row" id="row-${record.idx}">
         <div class="category-type-${categoryType}">${record.Category.content}</div>
         <div class="content">${record.content}</div>
         <div class="payment">테스트은행</div>
@@ -81,6 +82,8 @@ class HistoryList extends Observer {
 
     if (!parent.classList.contains('content-row')) parent = parent.closest('.content-row');
     parent.insertAdjacentHTML('beforeend', buttonHtml);
+    const modifyBtn = document.querySelector('.modify-btn');
+    modifyBtn.addEventListener('click', (event) => this.modifyBtnClickEvHandler(event));
   }
 
   // 해당 가계부 행 위로 마우스 커서 벗어날때 수정 버튼 제거
@@ -89,13 +92,22 @@ class HistoryList extends Observer {
     let parent = ev.target;
     if (!parent.classList.contains('content-row')) parent = parent.closest('.content-row');
     const modifyBtnNode = parent.querySelector('.modify-row');
+
     parent.removeChild(modifyBtnNode);
   }
 
-  bindEvents() {
+  modifyBtnClickEvHandler(ev) {
+    const parent = ev.target.closest('.content-row');
+    const contentId = parseInt(parent.id.split('-')[1]);
+    const addForm = document.querySelector('#content-add-form');
+    addForm.setAttribute('row-id', contentId);
+    addForm.querySelector('#submit-btn').classList.add('modify');
+  }
+
+  bindEvents(state = {}) {
     const recordNodeList = document.querySelectorAll('.content-row');
     recordNodeList.forEach((recordNode) => {
-      recordNode.addEventListener('mouseenter', (ev) => this.rowMouseEnterEvHandler(ev));
+      recordNode.addEventListener('mouseenter', (ev) => this.rowMouseEnterEvHandler(ev, state));
       recordNode.addEventListener('mouseleave', (ev) => this.rowMouseLeaveEvHandler(ev));
     });
   }
@@ -126,7 +138,7 @@ class HistoryList extends Observer {
     const htmlStr = this.createHtml(state);
     const parent = document.querySelector(selector);
     parent.innerHTML = htmlStr;
-    this.bindEvents();
+    this.bindEvents(state);
   }
 
   // State가 바뀌면 알림과 변경된  state를 받아  component를 다시 렌더링
