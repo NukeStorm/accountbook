@@ -33,6 +33,17 @@ export async function addAccountHistory(history) {
     return false;
   }
 }
+export async function modifyAccountHistory(history) {
+  const apiurl = '/api/v1/content/modify';
+  try {
+    let res = await axios.put(apiurl, history);
+    res = res.data.res;
+
+    return res;
+  } catch (e) {
+    return false;
+  }
+}
 
 export async function getCategoryList(typeid) {
   const apiurl = `/api/v1/category/list/${typeid}`;
