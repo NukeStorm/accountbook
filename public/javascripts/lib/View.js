@@ -8,13 +8,13 @@ class View {
     this.componentlist = componentlist;
     this.componentlist.forEach((component) => {
       if (component instanceof Observer) {
-        this.appState.addObserver(component);
+        this.appState?.addObserver(component);
       } else component.importState(this.appState);
     });
   }
 
   async render() {
-    await this.appState.initState();
+    await this.appState?.initState();
     this.componentlist.forEach((component) => {
       if (!(component instanceof Observer)) component.render();
     });
