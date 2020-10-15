@@ -56,6 +56,24 @@ router.put('/v1/content/modify', async (req, res, next) => {
     res.json(result);
   }
 });
+router.delete('/v1/content/delete', async (req, res, next) => {
+  const result = { res: true };
+  // eslint-disable-next-line object-curly-newline
+  const { idx } = req.query;
+  console.log(req.query);
+  try {
+    await Content.destroy({
+      where: {
+        idx,
+      },
+    });
+    res.json(result);
+  } catch (e) {
+    console.log(e);
+    result.res = false;
+    res.json(result);
+  }
+});
 
 router.get('/v1/content/list/currentmonth/:date', async (req, res, next) => {
   const result = { res: [] };
