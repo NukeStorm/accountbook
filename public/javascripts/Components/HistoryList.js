@@ -5,13 +5,14 @@
 // eslint-disable-next-line import/extensions
 import Observer from '../lib/Observer.js';
 import { convertNumberFormat } from '../lib/utils.js';
-import { loadMonthAccountHistory } from '../lib/Transaction.js';
+import { removeAccountHistory } from '../lib/Transaction.js';
 
 class HistoryList extends Observer {
   constructor(selector) {
     super();
     this.selector = selector;
-    this.loadMonthAccountHistory = loadMonthAccountHistory;
+    this.removeAccountHistory = removeAccountHistory;
+    this.appState = null;
   }
 
   getDateMap(recordlist = []) {
@@ -50,10 +51,11 @@ class HistoryList extends Observer {
     return dayStasticsHtmlStr;
   }
 
-  createModifyButtonHtml() {
+  createModifyDeleteButtonHtml() {
     const html = `
     <div class="modify-row">
     <button class="modify-btn">수정하기</button>
+    <button class="delete-btn">삭제하기</button>
     </div>`;
     return html;
   }
@@ -66,7 +68,7 @@ class HistoryList extends Observer {
         <div class="category-type-${categoryType}">${record.Category.content}</div>
         <div class="content">${record.content}</div>
         <div class="payment">테스트은행</div>
-        <div class="amount">${convertNumberFormat(record.amount)}원</div>
+        <div class="amount category-type-${categoryType}">${convertNumberFormat(record.amount)}원</div>
       </div>
         `;
       recordListHtmlStr += recordHtmlStr;
@@ -74,16 +76,19 @@ class HistoryList extends Observer {
     return recordListHtmlStr;
   }
 
-  // 해당 가계부 행 위로 마우스 커서 진입할때 수정 버튼 붙여줌
+  // 해당 가계부 행 위로 마우스 커서 진입할때 수정/삭제 버튼 붙여줌
   rowMouseEnterEvHandler(ev) {
     ev.preventDefault();
-    const buttonHtml = this.createModifyButtonHtml();
+    const buttonHtml = this.createModifyDeleteButtonHtml();
     let parent = ev.target;
 
     if (!parent.classList.contains('content-row')) parent = parent.closest('.content-row');
     parent.insertAdjacentHTML('beforeend', buttonHtml);
+
     const modifyBtn = document.querySelector('.modify-btn');
     modifyBtn.addEventListener('click', (event) => this.modifyBtnClickEvHandler(event));
+    const deletebtn = document.querySelector('.delete-btn');
+    deletebtn.addEventListener('click', (event) => this.deleteBtnClickEvHandler(event));
   }
 
   // 해당 가계부 행 위로 마우스 커서 벗어날때 수정 버튼 제거
@@ -102,6 +107,22 @@ class HistoryList extends Observer {
     const addForm = document.querySelector('#content-add-form');
     addForm.setAttribute('row-id', contentId);
     addForm.querySelector('#submit-btn').classList.add('modify');
+  }
+
+  async deleteBtnClickEvHandler(ev) {
+    const command = confirm('정말 삭제하시겠습니까?');
+    if (!command) return;
+
+    const historyId = ev.target.closest('.content-row')?.id.split('-')[1];
+    const res = await this.removeAccountHistory({ idx: historyId });
+
+    if (res) {
+      alert('삭제되었습니다.');
+      const { currentMonth } = this.appState.state;
+      await this.appState.changeMonthState(currentMonth);
+    } else {
+      alert('삭제 도중 오류가 발생했습니다.');
+    }
   }
 
   bindEvents(state = {}) {
@@ -135,6 +156,9 @@ class HistoryList extends Observer {
   }
 
   render(state, selector = this.selector) {
+    if (!this.appStatestate) {
+      this.appState = state.appStateRef;
+    }
     const htmlStr = this.createHtml(state);
     const parent = document.querySelector(selector);
     parent.innerHTML = htmlStr;

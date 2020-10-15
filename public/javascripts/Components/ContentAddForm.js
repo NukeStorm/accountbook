@@ -42,7 +42,7 @@ class ContentAddForm {
       <div class="row" style="display: flex; justify-content: space-between">
         <div class="row category-type">${typeNodeHtmlStr}</div>
         <div class="row form-btns-list">
-          <button>내용 지우기</button>
+          <button class="reset-btn">내용 지우기</button>
         </div>
       </div>
       <div class="row">
@@ -96,8 +96,17 @@ class ContentAddForm {
     document.querySelector('#amount').value = convertNumberFormat(num);
   }
 
+  formResetBtnEvHnadler(ev) {
+    const addForm = document.querySelector('#content-add-form');
+    const currentDateStr = `${this.appState.state.currentMonth}-${`0${new Date().getDate()}`.slice(-2)}`;
+    addForm.querySelector("input[name='date']").value = currentDateStr;
+    addForm.querySelector("input[name='amount']").value = '';
+    addForm.querySelector("input[name='content']").value = '';
+    addForm.querySelector("select[name='category']").value = '';
+  }
+
   // eslint-disable-next-line no-unused-vars
-  async submitBtnEvnetListner(ev) {
+  async submitBtnEvHandler(ev) {
     const state = this.appState.get();
     const userid = 'test';
     const date = document.querySelector('input[name="date"]').value;
@@ -144,6 +153,26 @@ class ContentAddForm {
     }
   }
 
+  modifyCancleBtnClickEvHandler(ev) {
+    const formResetBtn = document.querySelector('.reset-btn');
+    formResetBtn.click(); // 수정취소시 폼 내용 삭제
+    const cancelBtn = ev.target;
+    const parent = cancelBtn.parentNode;
+    const submitBtn = document.querySelector('#submit-btn');
+    submitBtn.classList.remove('modify');
+    submitBtn.innerText = '추가';
+    parent.removeChild(cancelBtn);
+  }
+
+  addModifyCancelBtn() {
+    const btnArea = document.querySelector('.form-btns-list');
+    const cancelBtnHtml = '<button class="modify-cancel-btn">수정 취소하기</button>';
+    btnArea.insertAdjacentHTML('beforeend', cancelBtnHtml);
+
+    const cancleBtn = document.querySelector('.modify-cancel-btn');
+    cancleBtn.addEventListener('click', (ev) => this.modifyCancleBtnClickEvHandler(ev));
+  }
+
   async changeToModifyForm() {
     const { recordMap } = this.appState.state;
     const idx = parseInt(document.querySelector(this.selector).getAttribute('row-id'));
@@ -163,6 +192,8 @@ class ContentAddForm {
     addForm.querySelector("input[name='content']").value = history.content;
     addForm.querySelector("select[name='category']").value = history.Category.cid;
     addForm.querySelector('#submit-btn').innerText = '수정';
+
+    this.addModifyCancelBtn();
   }
 
   // submit 버튼 class가 변경될때 처리하는 콜백 함수
@@ -172,11 +203,11 @@ class ContentAddForm {
         //  버튼 class가 modify(수정) 일때
         if (mutation.target.classList.contains('modify')) {
           this.changeToModifyForm();
+
           // 입력 폼을 수정 폼으로 변경, 수정할 기록 데이터를 바인딩
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           // 버튼 class에 modify가 없을때(수정모드가 아닌 일반 추가모드)
-          document.querySelector('#submit-btn').innerText = '추가';
         }
       }
     });
@@ -197,7 +228,12 @@ class ContentAddForm {
     moneyinput.addEventListener('keyup', (ev) => this.amountInputCheckHandler(ev));
     const addbtn = document.querySelector('#submit-btn');
     addbtn.addEventListener('click', (ev) => {
-      this.submitBtnEvnetListner(ev);
+      this.submitBtnEvHandler(ev);
+    });
+
+    const formResetBtn = document.querySelector('.reset-btn');
+    formResetBtn.addEventListener('click', (ev) => {
+      this.formResetBtnEvHnadler(ev);
     });
 
     document.querySelector(this.selector).addEventListener('click', (ev) => {

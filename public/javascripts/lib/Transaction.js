@@ -44,6 +44,17 @@ export async function modifyAccountHistory(history) {
     return false;
   }
 }
+export async function removeAccountHistory(history) {
+  const apiurl = '/api/v1/content/delete';
+
+  try {
+    let res = await axios.delete(apiurl, { params: history });
+    res = res.data.res;
+    return res;
+  } catch (e) {
+    return false;
+  }
+}
 
 export async function getCategoryList(typeid) {
   const apiurl = `/api/v1/category/list/${typeid}`;

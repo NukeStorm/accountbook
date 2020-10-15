@@ -14,10 +14,12 @@ class AccountHistoryState extends State {
     this.loadMonthAccountHistory = loadMonthAccountHistory;
     this.getCategoryList = getCategoryList;
     this.getCategoryTypeList = getCategoryTypeList;
+    this.state.appStateRef = this;
   }
 
   update(data = {}) {
     this.state = Object.assign(this.state, data);
+    this.state.appStateRef = this;
     this.notify(this.state);
   }
 
