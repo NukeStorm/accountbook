@@ -28,6 +28,35 @@ router.post('/v1/content/add', async (req, res, next) => {
     res.json(result);
   }
 });
+
+router.put('/v1/content/modify', async (req, res, next) => {
+  const result = { res: true };
+  // eslint-disable-next-line object-curly-newline
+  const { idx, date, category, amount, content, userid } = req.body;
+
+  try {
+    await Content.update(
+      {
+        date,
+        category: parseInt(category),
+        amount: parseInt(amount),
+        content,
+        userid,
+      },
+      {
+        where: {
+          idx,
+        },
+      },
+    );
+    res.json(result);
+  } catch (e) {
+    console.log(e);
+    result.res = false;
+    res.json(result);
+  }
+});
+
 router.get('/v1/content/list/currentmonth/:date', async (req, res, next) => {
   const result = { res: [] };
   const { date } = req.params;
