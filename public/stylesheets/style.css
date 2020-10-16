@@ -19,11 +19,40 @@ a {
 }
 
 nav {
-  background-color: aquamarine;
   font-size: 48px;
+  background-color: aquamarine;
   text-align: center;
 }
+nav .nav-bar{
+  display: flex;
+  justify-content: center;
+}
 
+nav .nav-title{
+  font-size: 48px;
+  margin-left: 25%;
+  margin-right: auto;
+  width: 50%;
+}
+
+nav .user-area{
+
+  font-size: 24px;
+  width: 20%;
+  text-align: right;
+}
+
+nav #logout-btn{
+  width: 30%;
+  height: 80%;
+  margin-top: 5px;
+  margin-left: 5px;
+  font-size: 20px;
+  border: none;
+  font-family: inherit;
+  border-radius: 1.5em;
+  background-color: tomato !important;
+}
 @keyframes slide-up {
   0% {
       opacity: 0;
@@ -69,6 +98,7 @@ nav {
 .login-form .header{
   margin: 10px;
 }
+
 .signup-form .signup-btn,
 .signup-form .signup-cancel-btn,
 .login-form .login-btn{
