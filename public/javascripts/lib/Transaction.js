@@ -5,7 +5,6 @@
 
 export function checkAuthToken() {
   const clientToken = sessionStorage.getItem('authtoken');
-  console.log(clientToken);
   return !!clientToken;
 }
 

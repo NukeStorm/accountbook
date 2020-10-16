@@ -63,7 +63,7 @@ router.delete('/v1/content/delete', authChecker, async (req, res, next) => {
   const { userid } = res.locals;
   // eslint-disable-next-line object-curly-newline
   const { idx } = req.query;
-  console.log(req.query);
+
   try {
     await Content.destroy({
       where: {
