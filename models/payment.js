@@ -34,7 +34,7 @@ class Category extends Sequelize.Model {
 
   // eslint-disable-next-line no-unused-vars
   static associate(db) {
-    db.Payment.belongsTo(db.Content, { foreignKey: 'payment', targetKey: 'pid' });
+    //  db.Payment.belongsTo(db.Content, { foreignKey: 'payment', targetKey: 'pid' });
   }
 }
 module.exports = Category;

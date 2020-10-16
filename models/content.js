@@ -49,7 +49,7 @@ class Content extends Sequelize.Model {
   static associate(db) {
     db.Content.belongsTo(db.User, { foreignKey: 'userid', targetKey: 'userid' });
     db.Content.belongsTo(db.Category, { foreignKey: 'category', targetKey: 'cid' });
-    db.Content.belongsTo(db.Payment, { foreignKey: 'payment', targetKey: 'pid' });
+    // db.Content.belongsTo(db.Payment, { foreignKey: 'payment', targetKey: 'pid' });
   }
 }
 module.exports = Content;
