@@ -12,7 +12,7 @@ class Content extends Sequelize.Model {
           autoIncrement: true,
         },
         date: {
-          type: Sequelize.DATE,
+          type: Sequelize.DATEONLY,
           allowNull: false,
           unique: false,
         },
