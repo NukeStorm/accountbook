@@ -108,21 +108,20 @@ class ContentAddForm {
   // eslint-disable-next-line no-unused-vars
   async submitBtnEvHandler(ev) {
     const state = this.appState.get();
-    const userid = 'test';
+
     const date = document.querySelector('input[name="date"]').value;
     const category = parseInt(document.querySelector('select[name="category"]').value);
     // const payment = document.querySelector('select[name="payment"]').value;
     const amount = parseInt(document.querySelector('input[name="amount"]').value.replace(/,/gi, ''));
     const content = document.querySelector('input[name="content"]').value;
 
-    if (!(userid && date && category && amount && content)) return;
+    if (!(date && category && amount && content)) return;
 
     const history = {
       date,
       category,
       amount,
       content,
-      userid,
     };
     const resultmsg = {
       modify: '수정되었습니다.',
@@ -143,11 +142,7 @@ class ContentAddForm {
 
     if (result) {
       alert(msg);
-      const recordlist = await this.appState.loadMonthAccountHistory(this.appState.get().currentMonth);
-      this.appState.update({
-        ...state,
-        recordlist,
-      });
+      this.appState.changeMonthState(this.appState.get().currentMonth);
     } else {
       alert('오류');
     }
@@ -237,14 +232,13 @@ class ContentAddForm {
     });
 
     document.querySelector(this.selector).addEventListener('click', (ev) => {
-      const userid = 'test';
       const date = document.querySelector('input[name="date"]').value;
       const category = parseInt(document.querySelector('select[name="category"]').value);
       // const payment = document.querySelector('select[name="payment"]').value;
       const amount = parseInt(document.querySelector('input[name="amount"]').value.replace(/,/gi, ''));
       const content = document.querySelector('input[name="content"]').value;
 
-      if (userid && date && category && amount && content) document.querySelector('.add-btn').disabled = false;
+      if (date && category && amount && content) document.querySelector('.add-btn').disabled = false;
       else document.querySelector('.add-btn').disabled = true;
     });
   }
