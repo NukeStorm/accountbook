@@ -21,11 +21,12 @@ router.post('/v1/user/signup', async (req, res, next) => {
   }
 });
 
+// 로그인할때 토큰발급
 router.post('/v1/auth/tokens', async (req, res, next) => {
   passport.authenticate('local', { session: false }, (err, user) => {
     if (err || !user) {
       return res.status(400).json({
-        message: 'Something is not right',
+        message: '로그인 실패',
         id: user,
       });
     }
@@ -35,7 +36,7 @@ router.post('/v1/auth/tokens', async (req, res, next) => {
         res.send(err);
       }
       // jwt.sign('token내용', 'JWT secretkey')
-      const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, { expiresIn: '10m' });
+      const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, { expiresIn: '3h' });
       return res.json({ user, token });
     });
   })(req, res);

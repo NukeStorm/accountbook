@@ -1,19 +1,18 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-undef */
-/* 토큰 헤더에 담는 코드 - 테스트용, 변경 예정
-export default function checkAuthToken() {
-  const token = sessionStorage.getItem('token');
-  if (clientToken) {
-    axios.defaults.headers.common['x-auth-token'] = clientToken;
-  }
-  delete axios.defaults.headers.common['x-auth-token'];
-  const header = {
-    headers: {
-      'content-type': 'application/json',
-    },
-  };
+
+// 토큰 헤더에 담는 코드 - 테스트용, 변경 예정
+
+export function checkAuthToken() {
+  const clientToken = localStorage.getItem('authtoken');
+  console.log(clientToken);
+  return !!clientToken;
 }
-*/
+
+export function setAuthXAuthHeader() {
+  const clientToken = sessionStorage.getItem('authtoken');
+  axios.defaults.headers.common['x-auth-token'] = clientToken;
+}
 
 export async function loadMonthAccountHistory(monthstr) {
   const apiurl = `/api/v1/content/list/currentmonth/${monthstr}`;

@@ -5,14 +5,15 @@ const { Op, Sequelize } = require('sequelize');
 const Content = require('../models/content');
 const Category = require('../models/category');
 const CategoryType = require('../models/category_type');
-
+const authChecker = require('../middleware/authCheck');
 const sequelize = Sequelize;
 const router = express.Router();
 
-router.post('/v1/content/add', async (req, res, next) => {
+router.post('/v1/content/add', authChecker, async (req, res, next) => {
   const result = { res: true };
+  const { userid } = res.locals;
   // eslint-disable-next-line object-curly-newline
-  const { date, category, amount, content, userid } = req.body;
+  const { date, category, amount, content } = req.body;
   try {
     await Content.create({
       date,
@@ -29,10 +30,11 @@ router.post('/v1/content/add', async (req, res, next) => {
   }
 });
 
-router.put('/v1/content/modify', async (req, res, next) => {
+router.put('/v1/content/modify', authChecker, async (req, res, next) => {
   const result = { res: true };
+  const { userid } = res.locals;
   // eslint-disable-next-line object-curly-newline
-  const { idx, date, category, amount, content, userid } = req.body;
+  const { idx, date, category, amount, content } = req.body;
 
   try {
     await Content.update(
@@ -41,11 +43,11 @@ router.put('/v1/content/modify', async (req, res, next) => {
         category: parseInt(category),
         amount: parseInt(amount),
         content,
-        userid,
       },
       {
         where: {
           idx,
+          userid,
         },
       },
     );
@@ -56,8 +58,9 @@ router.put('/v1/content/modify', async (req, res, next) => {
     res.json(result);
   }
 });
-router.delete('/v1/content/delete', async (req, res, next) => {
+router.delete('/v1/content/delete', authChecker, async (req, res, next) => {
   const result = { res: true };
+  const { userid } = res.locals;
   // eslint-disable-next-line object-curly-newline
   const { idx } = req.query;
   console.log(req.query);
@@ -65,6 +68,7 @@ router.delete('/v1/content/delete', async (req, res, next) => {
     await Content.destroy({
       where: {
         idx,
+        userid,
       },
     });
     res.json(result);
@@ -75,10 +79,10 @@ router.delete('/v1/content/delete', async (req, res, next) => {
   }
 });
 
-router.get('/v1/content/list/currentmonth/:date', async (req, res, next) => {
+router.get('/v1/content/list/currentmonth/:date', authChecker, async (req, res, next) => {
   const result = { res: [] };
   const { date } = req.params;
-
+  const { userid } = res.locals;
   // 해당 월의 1일
   const currentMonthStartDate = new Date(date);
   currentMonthStartDate.setDate(1);
@@ -96,7 +100,7 @@ router.get('/v1/content/list/currentmonth/:date', async (req, res, next) => {
         include: [{ model: CategoryType, required: true }],
       },
     ],
-    where: { date: { [Op.between]: [currentMonthStartDate, nextMonthStartDate] } },
+    where: { userid, date: { [Op.between]: [currentMonthStartDate, nextMonthStartDate] } },
     attributes: ['idx', 'date', 'content', 'amount', 'userid'],
   };
   try {
@@ -108,10 +112,10 @@ router.get('/v1/content/list/currentmonth/:date', async (req, res, next) => {
   }
 });
 
-router.get('/v1/stastics/category/:date', async (req, res, next) => {
+router.get('/v1/stastics/category/:date', authChecker, async (req, res, next) => {
   const result = { res: null };
   const { date } = req.params;
-
+  const { userid } = res.locals;
   // 해당 월의 1일
   const currentMonthStartDate = new Date(date);
   currentMonthStartDate.setDate(1);
@@ -130,7 +134,7 @@ router.get('/v1/stastics/category/:date', async (req, res, next) => {
       },
     ],
     order: sequelize.literal('sumAmount DESC'),
-    where: { date: { [Op.between]: [currentMonthStartDate, nextMonthStartDate] }, '$Category.type$': 2 },
+    where: { userid, date: { [Op.between]: [currentMonthStartDate, nextMonthStartDate] }, '$Category.type$': 2 },
     group: ['category'],
     raw: true,
     attributes: ['category', [sequelize.fn('COUNT', sequelize.col('idx')), 'categoryCnt'], [sequelize.fn('SUM', sequelize.col('amount')), 'sumAmount']],
