@@ -21,7 +21,7 @@ http://101.101.217.8:3000/main.html
 ![디렉토리구조](https://user-images.githubusercontent.com/22471977/96087489-e4eab080-0efe-11eb-9d14-203c621c362c.PNG)
 
 
-## 주요 구현내용 
+## 주요 구현내용 FE
 - SPA방식으로 구현
 - 데이터(모델)과  뷰를 최대한 분리하려고 노력
 - Observer pattern을 활용하여 구현
@@ -37,11 +37,15 @@ http://101.101.217.8:3000/main.html
   - State가 등록된 모든 Observer의 update()를 실행시키고 컴포넌트에서 오버라이딩되어 재정의된 render() 함수를 통해 자신을 렌더링
 - View Class :  화면을 나타내는 Class로 여러 컴포넌트를 입력받아 화면을 구성할 수 있도록 구현
   -  /View 디렉토리의 Class들이 View 를 상속받아 각 화면을 구현
-
 - app.js : SPA의 시작점에 해당하며 SPA의 화면을 구성하는 View를 생성하여 화면을 주소에 맞게 해당 View로 렌더링한다.
 - uri hash fragment를 활용하여 라우팅을 구현
-
+## 주요 구현내용 BE
+- Express.js기반
+- ORM Sequelize 사용
+- Passport + jwt 사용하여 회원인증 구현
+- 토큰인증 미들웨어를 구현하여 로그인된 사용자만 Content(가계부기록)관련 rest api 사용 가능하게끔 구현
 ## 하지못한것
 - 통계부분의 일일 지출 그래프를 구현하지 못했다.
+- 프론트엔드에서 jwt 토큰 만료후 백엔드에서 발생시키는 에러를 예외처리하고 토큰을 재발급받는 프로세스를 구현하지 못했다
 
 
