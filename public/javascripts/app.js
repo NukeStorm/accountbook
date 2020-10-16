@@ -22,11 +22,7 @@ async function init() {
     let targetView = window.location.hash.replace('#', '');
     if (!viewList[targetView]) targetView = 'login';
 
-    if (!checkAuthToken()) {
-      alert('로그인을 먼저 해주세요');
-      targetView = 'login';
-    }
-    setAuthXAuthHeader();
+    if (checkAuthToken()) setAuthXAuthHeader();
     await viewList[targetView].render();
   };
 
@@ -34,7 +30,7 @@ async function init() {
   window.addEventListener('hashchange', async () => {
     // hash가 변경되면 이벤트 발생 및 라우팅 처리
     let targetView = window.location.hash.replace('#', '');
-    if (!checkAuthToken()) {
+    if (targetView !== 'login' && targetView !== 'signup' && !checkAuthToken()) {
       alert('로그인을 먼저 해주세요');
       targetView = 'login';
     }

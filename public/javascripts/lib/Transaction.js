@@ -4,7 +4,7 @@
 // 토큰 헤더에 담는 코드 - 테스트용, 변경 예정
 
 export function checkAuthToken() {
-  const clientToken = localStorage.getItem('authtoken');
+  const clientToken = sessionStorage.getItem('authtoken');
   console.log(clientToken);
   return !!clientToken;
 }
