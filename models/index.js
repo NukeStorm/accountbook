@@ -7,6 +7,7 @@ const User = require('./user');
 const Category = require('./category');
 const Content = require('./content');
 const CategoryType = require('./category_type');
+const Payment = require('./payment');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -21,8 +22,10 @@ db.User = User;
 db.Category = Category;
 db.Content = Content;
 db.CategoryType = CategoryType;
+db.Payment = Payment;
 
 User.init(sequelize);
+Payment.init(sequelize);
 Category.init(sequelize);
 CategoryType.init(sequelize);
 Content.init(sequelize);
