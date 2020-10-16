@@ -2,7 +2,9 @@
 /* eslint-disable constructor-super */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable class-methods-use-this */
-import { getLoginToken } from '../lib/Transaction.js';
+
+import { getLoginToken, setAuthXAuthHeader } from '../lib/Transaction.js';
+
 class LoginForm {
   constructor(selector) {
     this.selector = selector;
@@ -44,7 +46,8 @@ class LoginForm {
     const authData = await getLoginToken(loginData);
     sessionStorage.setItem('userid', authData.user.userid);
     sessionStorage.setItem('authtoken', authData.token);
-    console.log(authData);
+    setAuthXAuthHeader();
+
     location.hash = 'main';
   }
 
