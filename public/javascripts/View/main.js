@@ -19,7 +19,7 @@ class MainView extends View {
   }
 
   createHtml() {
-    const viewHtmlStr = `<nav id="nav-bar">가계부</nav>
+    const viewHtmlStr = `<nav id="nav-bar"></nav>
    <div class="month" id="monthSelector"></div>
    <div class="menu-bar" id="menu-bar"> </div>
    <div class="content-add-form" id="content-add-form"></div>
