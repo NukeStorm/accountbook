@@ -1,5 +1,4 @@
-## 배포주소
-http://101.101.217.8:3000/main.html
+
 
 ### 로그인
 ![로그인](https://user-images.githubusercontent.com/22471977/96086507-6d685180-0efd-11eb-9367-ba81cbb2b8ac.gif)
